@@ -8,3 +8,6 @@ variable "shh_ingress_cidr" {}
 variable "sg_ingress_cidr" {}
 variable "zone_id" {}
 variable "instance_type" {}
+variable "min_size" {}
+variable "max_size" {}
+variable "desired_capacity" {}

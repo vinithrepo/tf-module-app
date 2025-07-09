@@ -27,7 +27,7 @@ resource "aws_security_group" "main" {
 }
 
 resource "aws_launch_template" "main" {
-  name        = "${local.name_prefix}-"
+  name        = local.name_prefix
   image_id      = data.aws_ami.ami.id
   instance_type = var.instance_type
   vpc_security_group_ids = [aws_security_group.main.id]
@@ -42,14 +42,20 @@ resource "aws_launch_template" "main" {
   }
 }
 
-#resource "aws_autoscaling_group" "main" {
-#  availability_zones = ["us-east-1a"]
-#  desired_capacity   = 1
-#  max_size           = 1
-#  min_size           = 1
-#
-#  launch_template {
-#    id      = aws_launch_template.main.id
-#    version = "$Latest"
-#  }
-#}
+resource "aws_autoscaling_group" "main" {
+  name = "${local.name_prefix}-asg"
+  vpc_zone_identifier = var.subnet_ids
+  desired_capacity   = var.desired_capacity
+  max_size           = var.max_size
+  min_size           = var.min_size
+
+  launch_template {
+    id      = aws_launch_template.main.id
+    version = "$Latest"
+  }
+  tag {
+    key                 = "Name"
+    propagate_at_launch = true
+    value               = local.name_prefix
+  }
+}
