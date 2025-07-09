@@ -59,3 +59,10 @@ resource "aws_autoscaling_group" "main" {
     value               = local.name_prefix
   }
 }
+resource "aws_route53_record" "main" {
+  zone_id = var.zone_id
+  name    = "${var.component}-${var.env}"
+  type    = "CNAME"
+  ttl     = 30
+  records = [var.alb_name]
+}
