@@ -1,0 +1,9 @@
+variable "vpc_id" {}
+variable "tags" {}
+variable "env" {}
+variable "subnet_ids" {}
+variable "port" {}
+variable "component" {}
+variable "shh_ingress_cidr" {}
+variable "sg_ingress_cidr" {}
+variable "zone_id" {}
