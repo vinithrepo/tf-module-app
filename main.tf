@@ -98,3 +98,8 @@ resource "aws_lb_target_group" "public" {
   protocol = "HTTP"
   vpc_id   = var.vpc_id
 }
+#resource "aws_lb_target_group_attachment" "public" {
+#  target_group_arn = aws_lb_target_group.public[0].arn
+#  target_id        = aws_instance.test.id
+#  port             = 80
+#}
