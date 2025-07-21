@@ -99,7 +99,7 @@ resource "aws_lb_target_group" "public" {
   vpc_id   = var.vpc_id
 }
 resource "aws_lb_target_group_attachment" "public" {
-  count = tolist(data.dns_a_record_set.private_alb_records.addrs)
+  count = length(tolist(data.dns_a_record_set.private_alb_records.addrs))
   target_group_arn = aws_lb_target_group.public[0].arn
   target_id        = element(tolist(data.dns_a_record_set.private_alb_records.addrs), count.index )
   port             = 80
