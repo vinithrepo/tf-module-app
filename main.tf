@@ -100,6 +100,7 @@ resource "aws_lb_target_group" "public" {
   vpc_id   = var.default_vpc_id
 }
 resource "aws_lb_target_group_attachment" "public" {
+  depends_on = [aws_lb_target_group.public]
   count = var.component == "frontend" ? length(tolist(data.dns_a_record_set.private_alb_records.addrs)) : 0
   target_group_arn = aws_lb_target_group.public[0].arn
   target_id        = element(tolist(data.dns_a_record_set.private_alb_records.addrs), count.index )
@@ -108,6 +109,7 @@ resource "aws_lb_target_group_attachment" "public" {
 }
 
 resource "aws_lb_listener_rule" "public" {
+  depends_on = [aws_lb_target_group.public]
   count = var.component == "frontend" ? 1 : 0
   listener_arn = var.public_listener
   priority     = var.lb_priority
